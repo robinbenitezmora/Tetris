@@ -307,10 +307,8 @@ public class Tetris extends JFrame implements KeyListener {
     private void blockgen() {
             Component temporaryLostComponent = null;
             pos[0] = 0;
-            pos[1] = 1;
-            rand = (int) (Math.floor(Math.random()*7+1));
-            centralx = 4;
-            private void go() {
+            @Override
+            void go() {
                 // Add the implementation of the go() method here
             }
 
@@ -331,6 +329,9 @@ public class Tetris extends JFrame implements KeyListener {
                 System.exit(0);
             }
         }
+
+    private void go() {
+    }
 
     public void rotate() {
         if (pos[0] < 3) {
@@ -361,12 +362,7 @@ public class Tetris extends JFrame implements KeyListener {
                         + 2] != 3)) {
             b[centralx + prof[pos[1]][0][rand - 1].x][centraly + prof[pos[1]][0][rand - 1].y]
                     .setBackground(Color.DARK_GRAY);
-            b[centralx + prof[pos[1]][1][rand - 1].x][centraly + prof[pos[1]][1][rand - 1].y]
-                    .setBackground(Color.DARK_GRAY);
-            b[centralx + prof[pos[1]][2][rand - 1].x][centraly + prof[pos[1]][2][rand - 1].y]
-                    .setBackground(Color.DARK_GRAY);
-            b[centralx + prof[pos[1]][3][rand - 1].x][centraly + prof[pos[1]][3][rand - 1].y]
-                    .setBackground(Color.DARK_GRAY);
+            Color[] rnd = { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.CYAN, Color.MAGENTA };
             b[centralx + (prof[pos[0]][0][rand - 1].x)][centraly + (prof[pos[0]][0][rand - 1].y)]
                     .setBackground(rnd[rand - 1]);
             b[centralx + (prof[pos[0]][1][rand - 1].x)][centraly + (prof[pos[0]][1][rand - 1].y)]
