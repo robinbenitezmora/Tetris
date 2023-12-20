@@ -543,14 +543,15 @@ public class Tetris extends JFrame implements KeyListener {
         }
     }
 
-    public void rowclear(int y){
+    public void rowclear(int y) {
         int inc = 0;
         for (int x = 0; x < 10; x++) {
             b[x][y].setBackground(Color.DARK_GRAY);
         }
         for (int c = y - 1; c > -1; c--) {
             for (int x = 0; x < 10; x++) {
-                tmp[x][y - inc] = Color.rgb(b[x][c].getBackground().getRed(), b[x][c].getBackground().getGreen(), b[x][c].getBackground().getBlue());
+                tmp[x][y - inc] = Color.rgb(b[x][c].getBackground().getRed(), b[x][c].getBackground().getGreen(),
+                        b[x][c].getBackground().getBlue());
             }
             inc++;
         }
@@ -560,3 +561,177 @@ public class Tetris extends JFrame implements KeyListener {
             }
         }
     }
+
+    public void movelr() {
+        int[] m2 = { -1, -1, -1, -1 };
+        int[] m1 = { -1, -1, -1, -1 };
+        int[] zero = { -1, -1, -1, -1 };
+        int[] one = { -1, -1, -1, -1 };
+        int[] two = { -1, -1, -1, -1 };
+        for (int d = 0; d < 4; d++) {
+            if (prof[pos[0]][d][rand - 1].y == -2) {
+                m2[d] = d;
+            } else if (prof[pos[0]][d][rand - 1].y == -1) {
+                m1[d] = d;
+            } else if (prof[pos[0]][d][rand - 1].y == 0) {
+                zero[d] = d;
+            } else if (prof[pos[0]][d][rand - 1].y == 1) {
+                one[d] = d;
+            } else if (prof[pos[0]][d][rand - 1].y == 2) {
+                two[d] = d;
+            }
+        }
+        int tmpm2 = -5;
+        int tmpm1 = -5;
+        int tmpzero = -5;
+        int tmpone = -5;
+        int tmptwo = -5;
+        if (deltax == 1) {
+            for (int d = 0; d < 4; d++) {
+                if (m2[d] != -1) {
+                    if (tmpm2 < prof[pos[0]][m2[d]][rand - 1].x) {
+                        tmpm2 = prof[pos[0]][m2[d]][rand - 1].x;
+                    }
+                }
+                if (m1[d] != -1) {
+                    if (tmpm1 < prof[pos[0]][m1[d]][rand - 1].x) {
+                        tmpm1 = prof[pos[0]][m1[d]][rand - 1].x;
+                    }
+                }
+                if (zero[d] != -1) {
+                    if (tmpzero < prof[pos[0]][zero[d]][rand - 1].x) {
+                        tmpzero = prof[pos[0]][zero[d]][rand - 1].x;
+                    }
+                }
+                if (one[d] != -1) {
+                    if (tmpone < prof[pos[0]][one[d]][rand - 1].x) {
+                        tmpone = prof[pos[0]][one[d]][rand - 1].x;
+                    }
+                }
+                if (two[d] != -1) {
+                    if (tmptwo < prof[pos[0]][two[d]][rand - 1].x) {
+                        tmptwo = prof[pos[0]][two[d]][rand - 1].x;
+                    }
+                }
+            }
+        } else if (deltax == -1) {
+            tmpm2 = 5;
+            tmpm1 = 5;
+            tmpzero = 5;
+            tmpone = 5;
+            tmptwo = 5;
+            for (int d = 0; d < 4; d++) {
+                if (m2[d] != -1) {
+                    if (tmpm2 > prof[pos[0]][m2[d]][rand - 1].x) {
+                        tmpm2 = prof[pos[0]][m2[d]][rand - 1].x;
+                    }
+                }
+                if (m1[d] != -1) {
+                    if (tmpm1 > prof[pos[0]][m1[d]][rand - 1].x) {
+                        tmpm1 = prof[pos[0]][m1[d]][rand - 1].x;
+                    }
+                }
+                if (zero[d] != -1) {
+                    if (tmpzero > prof[pos[0]][zero[d]][rand - 1].x) {
+                        tmpzero = prof[pos[0]][zero[d]][rand - 1].x;
+                    }
+                }
+                if (one[d] != -1) {
+                    if (tmpone > prof[pos[0]][one[d]][rand - 1].x) {
+                        tmpone = prof[pos[0]][one[d]][rand - 1].x;
+                    }
+                }
+                if (two[d] != -1) {
+                    if (tmptwo > prof[pos[0]][two[d]][rand - 1].x) {
+                        tmptwo = prof[pos[0]][two[d]][rand - 1].x;
+                    }
+                }
+            }
+        }
+        int total = 0;
+        for (int d = 0; d < 4; d++) {
+            if (prof[pos[0]][d][rand - 1].y == -2) {
+                if (perim[2 + centralx + deltax + tmpm2][2 + centraly - 2] != 2) {
+                    if (b[centralx + deltax + tmpm2][centraly - 2].getBackground() == Color.DARK_GRAY) {
+                        total++;
+                    }
+                }
+            } else if (prof[pos[0]][d][rand - 1].y == -1) {
+                if (perim[2 + centralx + deltax + tmpm1][2 + centraly - 1] != 2) {
+                    if (b[centralx + deltax + tmpm1][centraly - 1].getBackground() == Color.DARK_GRAY) {
+                        total++;
+                    }
+                }
+            } else if (prof[pos[0]][d][rand - 1].y == 0) {
+                if (perim[2 + centralx + deltax + tmpzero][2 + centraly] != 2) {
+                    if (b[centralx + deltax + tmpzero][centraly].getBackground() == Color.DARK_GRAY) {
+                        total++;
+                    }
+                }
+            } else if (prof[pos[0]][d][rand - 1].y == 1) {
+                if (perim[2 + centralx + deltax + tmpone][2 + centraly + 1] != 2) {
+                    if (b[centralx + deltax + tmpone][centraly + 1].getBackground() == Color.DARK_GRAY) {
+                        total++;
+                    }
+                }
+            } else if (prof[pos[0]][d][rand - 1].y == 2) {
+                if (perim[2 + centralx + deltax + tmptwo][2 + centraly + 2] != 2) {
+                    if (b[centralx + deltax + tmptwo][centraly + 2].getBackground() == Color.DARK_GRAY) {
+                        total++;
+                    }
+                }
+            }
+        }
+        if (total == 4) {
+            b[centralx + prof[pos[0]][0][rand - 1].x][centraly + prof[pos[0]][0][rand - 1].y]
+                    .setBackground(Color.DARK_GRAY);
+            b[centralx + prof[pos[0]][1][rand - 1].x][centraly + prof[pos[0]][1][rand - 1].y]
+                    .setBackground(Color.DARK_GRAY);
+            b[centralx + prof[pos[0]][2][rand - 1].x][centraly + prof[pos[0]][2][rand - 1].y]
+                    .setBackground(Color.DARK_GRAY);
+            b[centralx + prof[pos[0]][3][rand - 1].x][centraly + prof[pos[0]][3][rand - 1].y]
+                    .setBackground(Color.DARK_GRAY);
+            centralx = centralx + deltax;
+            b[centralx + prof[pos[0]][0][rand - 1].x][centraly + prof[pos[0]][0][rand - 1].y]
+                    .setBackground(rnd[rand - 1]);
+            b[centralx + prof[pos[0]][1][rand - 1].x][centraly + prof[pos[0]][1][rand - 1].y]
+                    .setBackground(rnd[rand - 1]);
+            b[centralx + prof[pos[0]][2][rand - 1].x][centraly + prof[pos[0]][2][rand - 1].y]
+                    .setBackground(rnd[rand - 1]);
+            b[centralx + prof[pos[0]][3][rand - 1].x][centraly + prof[pos[0]][3][rand - 1].y]
+                    .setBackground(rnd[rand - 1]);
+        }
+    }
+
+    public static void main(String[] args) {
+        new Tetris();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            deltax = 1;
+            movelr();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            deltax = -1;
+            movelr();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            rotate();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            movedown();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // TODO Auto-generated method stub
+    }
+}
